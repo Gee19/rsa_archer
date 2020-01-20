@@ -119,7 +119,3 @@ class Record:
 
         except Exception as e:
             log.error("Function get_value_from_valueslistid didn't work, %s", e)
-
-    def get_sequential_id(self):
-        """:return: I forgot why I added this"""
-        return self.record_sequential_id

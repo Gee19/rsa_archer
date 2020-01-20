@@ -357,7 +357,7 @@ class ArcherInstance:
         :returns int - record_id
         """
         api_url = f"{self.api_url_base}core/content/"
-        post_header = dict(self.header)
+        post_header = self.header
 
         transformed_json = {}
         for key in fields_json.keys():
@@ -407,14 +407,15 @@ class ArcherInstance:
             log.info("Function create_content_record didn't work, %s", e)
 
     def create_sub_record(self, fields_json, subform_name):
-        """LevelID is an application
+        """
+        Level ID is an application
         :param fields_json: {field name how you see it in the app: value content
                                                         (for text it text, for others it's internal unique ids)}
         :param subform_name: how you see it in the app
         :returns sub_record_id
         """
         api_url = f"{self.api_url_base}core/content/"
-        post_header = dict(self.header)
+        post_header = self.header
         post_header["X-Http-Method-Override"] = "POST"
 
         subform_field_id = self.get_field_id_by_name(subform_name)
@@ -452,11 +453,9 @@ class ArcherInstance:
             log.error("Function create_sub_record didn't work, %s", e)
 
     def delete_record(self, record_id=None):
-        """
-        :param record_id:
-        """
+        """:param record_id:"""
         api_url = f"{self.api_url_base}core/content/" + str(record_id)
-        post_header = dict(self.header)
+        post_header = self.header
 
         if record_id:
             post_header["X-Http-Method-Override"] = "DELETE"
@@ -484,7 +483,7 @@ class ArcherInstance:
         :return:
         """
         api_url = f"{self.api_url_base}core/content/attachment"
-        post_header = dict(self.header)
+        post_header = self.header
         post_header["X-Http-Method-Override"] = "POST"
         body = json.dumps({"AttachmentName": name, "AttachmentBytes": base64_string})
 
@@ -516,12 +515,13 @@ class ArcherInstance:
         :return: record object
         """
         api_url = f"{self.api_url_base}core/content/fieldcontent/"
+
         cont_id = [str(record_id)]
         body = json.dumps(
             {"FieldIds": self.all_application_fields_array, "ContentIds": cont_id}
         )
 
-        post_header = dict(self.header)
+        post_header = self.header
         post_header["X-Http-Method-Override"] = "POST"
 
         try:
@@ -544,7 +544,7 @@ class ArcherInstance:
         all_fields_arr = self.subforms_json_by_sf_name[sub_record_name]["AllFields"]
         body = json.dumps({"FieldIds": all_fields_arr, "ContentIds": cont_id})
 
-        post_header = dict(self.header)
+        post_header = self.header
         post_header["X-Http-Method-Override"] = "POST"
 
         try:
